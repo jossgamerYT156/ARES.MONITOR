@@ -1,0 +1,16 @@
+AVER "0.0.12-alpha"
+\@COMM This string avobe, defines the version this script is made for, .ares scripts are NOT interexchangable within versions.
+\@COMM Below is the maximum memory allowed to this script.
+AMEM 512
+
+
+\@COMM and here we execute already existing ARES commands, this is like BASH scripting.
+
+\@WRITE "Ahead, we will format a JSON File using a TXT file with our arescript formatter."
+\@WRITE FROM "inputdata.txt" WITH "json.arescript" TO output.json
+\@WRITE "Data from output.json:"
+\@WRITE FROM output.json
+\@WRITE "If no data is outputted, please review the .arescript given to WRITE and ensure it has the right formatting for ARESCRIPT_0.0.323"
+\@WRITE "Thanks for using ARES Scripting, Bye."
+\@COMM and we tell ARES we finished executing, so we don't hang.
+AEND
