@@ -1,4 +1,5 @@
 #pragma once
+#include "sys/wait.h"
 
 /**
  * Core Execution Logic
