@@ -12,12 +12,6 @@
 namespace ARES::CORE::HELP {
 // Database of Anti-POSIX commands
 const std::unordered_map<std::string, std::string> HELP_DB = {
-// Linux-only network requests implementation
-#ifdef __linux__
-    {"\\@REQUEST", "Usage: \\@REQUEST HTTP <\"url\"> [EXPECT <\"code\">] [WITH-DATA <\"mime/type\">] [VERBOSE]"},
-    {"\\@FETCH",   "Usage: \\@FETCH FROM <\"url\"> TO <\"path\"> [VERBOSE]"},
-    {"\\@REACH",   "Usage: \\@REACH TO <\"url\"> <GET|POST|PUT|PATCH|DELETE|DISCARD> [FROM <\"data|@file\">] [INTO <\"file\">] [REDIRECT] [VERBOSE]"},
-#endif
     {"\\@WRITE", "Usage: \\@WRITE <\"text\"> [TO <\"file\">] or FROM "
                  "<\"file\"> [TO <\"file\">]"},
     {"\\@APPEND",
@@ -60,7 +54,7 @@ const std::unordered_map<std::string, std::string> HELP_DB = {
     {"\\VERSION",
      "ARES MONITOR VERSION:" + ARES_VERSION + "\nRelease:" + ARES_RELEASE +
          "\nAnti-POSIX System Interface Version: LDS_APOSI STD0.0.1\n\n"
-         "\tCopyright (c) 2025 Lilly Aizawa and LDS. All rights reserved."},
+         "\tCopyright (c) 2025 Lilly Aizawa and LDS LLC. All rights reserved."},
     {"\\APOSI",
      "Anti-POSIX System Interface - A command line standard for the ARES "
      "Monitor with strong Syntax Types.\n\n"
@@ -71,10 +65,10 @@ const std::unordered_map<std::string, std::string> HELP_DB = {
      "\e]8;;https://softworks.aizawallc.org/APOSI/\e\\LDS APOSI "
      "Documentation\e]8;;\e\\\n"
      "for detailed information about this standard.\n"
-     "\n\n\tCopyright (c) 2025 Lilly Aizawa and LDS. All rights reserved."},
+     "\n\n\tCopyright (c) 2025 Lilly Aizawa and LDS LLC. All rights reserved."},
     {"\\ARES",
      "ARES Monitor - An purposefully non-POSIX compliant Monitor for macOS and "
-     "Linux developed by Lilly Aizawa under the LDS Softworks brand.\n\n"
+     "Linux developed by Lilly Aizawa under the LDS Softworks LLC brand.\n\n"
      "Version: " +
          ARES_VERSION + "-" + ARES_RELEASE +
          "\n"
@@ -99,11 +93,10 @@ const std::unordered_map<std::string, std::string> HELP_DB = {
      "Shell Modifier || Usage: @/path/to/ares \\QUIET - Suppresses the initial "
      "help message when launching the ARES Monitor from the shell. This allows "
      "for a cleaner startup when the user is already familiar with the "
-     "available commands or when the help message is not needed."},
-    {"\\@CEL",
-     "Usage: \\@CEL | Clears the session error log (Clear Error Logs)"},
-    {"\\@DCD", "Usage: \\@DCD | Dipsplays the current working directory "
-               "(Display Current Directory)"}};
+     "available commands or when the help message is not needed. "
+     "(Alternatively, you can mute it by using the file \"$HOME/.QUIET\". "
+     "Simply by existing, the header will be skipped on boot.)"},
+    {"\\@CEL", "Usage: \\@CEL | Clears the session error log"}};
 
 void handle_help(const std::vector<std::string> &args) {
   // Case 1: @HELP ALL
@@ -125,15 +118,14 @@ void handle_help(const std::vector<std::string> &args) {
       std::cout << args[1] << " : " << ARES::CORE::HELP::HELP_DB.at(args[1])
                 << std::endl;
     } else {
-      std::cout << "[HELP]:[ERROR]:[UNKNOWN COMMAND @ HELP argument]: ["
-                << args[1] << "]" << std::endl;
+      std::cout << "[HELP]:[4083]:[UNKNOWN_COMMAND_HELP] " << args[1]
+                << std::endl;
     }
     return;
   }
 
   // Default: Just @HELP (Show brief instruction)
-  std::cout
-      << "Usage: \\@HELP [ALL | <COMMAND_NAME>]\nExample: \\@HELP \\@WRITE"
-      << std::endl;
+  std::cout << "Usage: \\@HELP [ALL | <COMMAND_NAME>]\nExample: \\@HELP \\@AEX"
+            << std::endl;
 }
 } // namespace ARES::CORE::HELP

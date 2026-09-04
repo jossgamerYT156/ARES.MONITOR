@@ -1,0 +1,12 @@
+AVER 0.0.14-alpha
+\@COMM Example of a preinit.ares file, used to do some pre-init stuff.
+
+\@COMM Write a really cool message, like your username and shell version!
+\@WRITE "%USER : %ARES_VERSION "
+
+\@COMM AEX still has no way of knowing time, so, we use BASH for it for now.
+@bash -c 'printf "Session Started $(date)" > /tmp/000-ares-tmp'
+
+\@COMM And print that data from the temporary file.
+\@WRITE FROM /tmp/000-ares-tmp
+AEND

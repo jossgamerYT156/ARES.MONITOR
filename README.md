@@ -105,10 +105,23 @@ ___
 
 - Added a few logging messages for when running certain commands (forgot exactly where, has been a long week.)
 
-- AEX Parser Version changed, please update your scripts (Updated for Parity reasons.)
-
 - New Network Requests Commands (`\@REQUEST`, `\@FETCH` and `\@REACH`).
 ___
+
+### 0.0.14-Alpha Release 2 2026-09-04 6:00 AM [PDT] Changes:
+
+- Fixed Small bug with `\@WRITE` : Writing FROM file and `%ENV` would cause `%THING/file` to be interpreted as a single string.
+    Now this is fixed(doing fuckery math.)
+> No, i do not know what caused that bug.
+
+- Added: `%HOME/.QUIET` HEADER Silencing, now if the file exists, this will remove the need to specify `\QUIET`.
+
+- Added: `%HOME/System/Programs/ARES/preinit.ares` Profile File. Dependant on user, can be used to print or do anything that AEX allows you to.
+
+- AEX Parser Version changed, please update your scripts (Updated for Parity reasons.)
+
+- Small commenting in codebase.
+
 ___
 **And so much more!**
 ___

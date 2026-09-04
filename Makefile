@@ -36,6 +36,10 @@ endif
 NDK_CROSS   = aarch64-linux-android21-clang++
 NDK_HOME    = .NDK/android-ndk-r27d
 ANDROID_CXX = $(NDK_HOME)/toolchains/llvm/prebuilt/linux-x86_64/bin/$(NDK_CROSS)
+## Specific OpenSSL For Android, you NEED to cross-compile this yourself.
+# You may find OpenSSL's source code @ https://github.com/openssl/openssl/
+OPENSSL_ANDROID_PATH = .NDK/openssl/build
+ANDROID_FLAGS = -I$(OPENSSL_ANDROID_PATH)/include -L$(OPENSSL_ANDROID_PATH)/lib -lssl -lcrypto
 
 ## Legacy code stuff that i really don't need to change... yet.
 ZIGCXX      = zig c++
@@ -100,7 +104,7 @@ linux-cross: $(SOURCES)
 cross-android: $(SOURCES)
 	@echo "Cross-compiling for Android via Android's NDK..."
 	@bash Helpers/check-android-ndk.sh
-	@$(ANDROID_CXX) $(CFLAGS) $(INCLUDES) $^ -stdlib=libc++ -static-libstdc++ -o $(ANDRCOUT)
+	@$(ANDROID_CXX) $(CFLAGS) $(INCLUDES) $(ANDROID_FLAGS) $^ -stdlib=libc++ -static-libstdc++ -o $(ANDRCOUT)
 
 ## Simply a pointer, because, i am NOT making a method to compile this within Termux.
 ## The dependency hell and static-link bs is WAY too much of an annoyance for me to deal or care for.

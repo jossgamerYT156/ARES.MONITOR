@@ -12,6 +12,7 @@ obj/
 *.obj
 .NDK/android*
 .NDK/.*
+.NDK/*openssl*
 .NDK/*.zip
 MacOS*
 zig-cache*

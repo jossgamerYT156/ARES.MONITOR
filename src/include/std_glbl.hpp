@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <vector>
-#include "net.cpp" // LDS Network utilities.
 
 #ifndef STD_GLBL_HPP
 #pragma once
@@ -16,8 +15,8 @@
 
 // Version information.
 const std::string ARES_VERSION = "0.0.14-alpha";
-const std::string ARES_RELEASE = "R1";
-const std::string RELEASE_DATE = "2026-06-9";
+const std::string ARES_RELEASE = "R2";
+const std::string RELEASE_DATE = "2026-05-17";
 const std::string BRANCH = "STABLE";
 
 #include <termios.h>
@@ -70,14 +69,6 @@ namespace ARES{
             extern std::vector<std::string> smart_tokenize(const std::string &input);
             extern void execute_Ares_Automation(const std::vector<std::string> &args);
         }
-        namespace NETWORK {
-            // Only for Linux, since i am yet to learn how to implement sockets and requests on other systems such as BSD and macOS.
-            #ifdef __linux__
-                extern void handle_networkRequest(const std::vector<std::string> &args);
-                extern void handle_networkContentFetch(const std::vector<std::string> &args);
-                extern void handle_networkPing(const std::vector<std::string> &args);
-            #endif
-        }
     }
     namespace SYSTEM
     {
@@ -91,7 +82,6 @@ namespace ARES{
         extern void clearTerminalContents(const std::vector<std::string> &args);
         // IO::FileOperations
         extern void handle_replace(const std::vector<std::string> &args);
-        extern void handle_displayCurrentWorkingDirectory(const std::vector<std::string> &args);
         namespace FileOperations {
 
             // Directory Listing and workspace
@@ -109,7 +99,6 @@ namespace ARES{
     namespace RTE
     {
         namespace ENV {
-            extern std::vector<std::string> envargs;
             // Error handler // WIP.
             extern void handle_last_err(const std::vector<std::string> &args);
             // Store variables in memory:
@@ -195,14 +184,7 @@ std::unordered_map<std::string, CommandFunc> commands = {
     // CEL is for "Clear Errors Log". very self explanatory.
     // This command clears all previous errors from the session errors log. so you don't end up with 4GB of Errors in your memory if you keep fucking up and not reading the damn docs.
     // READ THE DOCS!!. -- Liliana Aizawa @ LDS Softworks LLC.
-    {"\\@CEL", ARES::RTE::ENV::handle_cel},
-    {"\\@DCD", ARES::IO::handle_displayCurrentWorkingDirectory}
-    #ifdef __linux__
-    ,
-    {"\\@REQUEST", ARES::MODULES::NETWORK::handle_networkRequest},
-    {"\\@FETCH", ARES::MODULES::NETWORK::handle_networkContentFetch},
-    {"\\@REACH", ARES::MODULES::NETWORK::handle_networkPing},
-    #endif
+    {"\\@CEL", ARES::RTE::ENV::handle_cel}
     };
     }
 } // namespace ARES

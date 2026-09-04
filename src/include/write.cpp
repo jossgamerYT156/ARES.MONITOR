@@ -45,14 +45,21 @@ namespace IO::FileOperations {
         last_error_code = 1;
         return;
       }
-    
+
       std::string content = "";
-    
+
       // Phase 1: Input
       if (args[1] == "FROM" && args.size() >= 3) {
         // Check if it's a variable reference
         if (args[2][0] == '%') {
-          std::string val = ARES::RTE::ENV::find_var(args[2].substr(1)); // strip the %
+
+          std::string val = ARES::RTE::ENV::find_var(args[2].substr(1).substr(-1)); // strip the %'s, we need that for files. this is a very weird bug.
+          /**
+           * For who doesn't know, there was a bug with \@WRITE FROM %SOMETHING/stuff.some, where somehow env would not expand. adding that -1, ensures we PROPERLY seek for environment variables.
+           *
+           * How does that makes sense? the fuck do i know? i didn't wrote C++. it just does. and now you can write from paths without much issue.
+           * It is also a very weird bug that appears once every idfk how often.
+           */
           if (val.empty()) {
             session_errors.push_back("[WRITE]:[Var Error: " + args[2] +
                                      " not found.]");
@@ -106,7 +113,7 @@ namespace IO::FileOperations {
         last_error_code = 1;
         return;
       }
-    
+
       std::string content = "";
     
       // Phase 1: Input

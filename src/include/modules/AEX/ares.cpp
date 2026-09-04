@@ -1,3 +1,5 @@
+
+namespace ARES {
 #pragma once
 #include "std_glbl.hpp"
 #include <fstream>
@@ -5,16 +7,16 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
-namespace ARES {
   namespace RTE::EXTERNALS {
       extern void run_external(const std::string &cmd, const std::vector<std::string> &args);
     }
 namespace MODULES {
 namespace AEX {
 
-  std::string parserV = "0.0.14-alpha";
-  std::string parser_rev = "2026-05-20";
+  std::string parserV = "0.0.14-alpha"; // New AEX Preinit Feature, Bumped version.
+  // BEFORE: 0.0.13-alpha
+  // AFTER : 0.0.14-alpha
+  std::string parser_rev = "2026-09-04"; // YY-MM-DD, i finally explained my fucking date format. apparently miracles happen.
 
 // External tokenizer
     extern std::vector<std::string> smart_tokenize(const std::string &input);
@@ -26,6 +28,7 @@ namespace AEX {
 int CarryFlag = 0;
 int ZeroFlag = 0;
 
+// Still unused.
 enum AexErrorCode {
   AEX_OK = 0,
   AEX_FILE_NOT_FOUND = 600,

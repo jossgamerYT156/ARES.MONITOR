@@ -1,6 +1,9 @@
 // Include for ALL definitions that are NOT inside the int main() context.
 // The reason this exist? to shut up the warning about #pragma once.
 #include "shell.hpp"
+#include "include/std_glbl.hpp"
+#include <algorithm>
+#include <string>
 namespace ARES {
   namespace IO {
     void clearTerminalContents(const std::vector<std::string>& args){
@@ -45,12 +48,27 @@ int main(int argc, char *argv[]) {
   if (argc > 1 && argv[1] == std::string("\\QUIET")) {
 
   }
+  // same, mute the header if there is a .QUIET File.
+  else if (fs::exists(ARES::RTE::ENV::internal_vars["HOME"]+"/.QUIET")){
+
+  }
   else {
     std::cout << ARES::CORE::HELP::HLPMSG << std::endl;
   }
   std::string line;
   bool condition_active = false; // are we inside an #IF block?
   bool condition_met = false;    // did the condition pass?
+  // This is me being nice. and yes, it is hardcoded.
+  // You get ONE way to personalize your environment before i drop you into the Interactive Prompt.
+  // I know this is flaky. but, you shouldn't really worry about this, since all this does is run an init script if it exists. and is AEX, so, properly documented stuff.
+  if (fs::exists(ARES::RTE::ENV::internal_vars["HOME"]+"/System/Programs/ARES/preinit.ares")){
+    std::cout << "Running Pre-Init Automatization/Environment Setup" << std::endl ; // : " << ARES::RTE::ENV::internal_vars["HOME"]+"/System/Programs/ARES/preinit.ares" <<std::endl; // debug extras. not needed on normal execution.
+    auto cli = "\\@AEX " + ARES::RTE::ENV::internal_vars["HOME"]+"/System/Programs/ARES/preinit.ares";
+    auto tokens = ARES::MODULES::AEX::smart_tokenize(cli);
+    if (ARES::CORE::commands.count(tokens[0])) {
+      ARES::CORE::commands[tokens[0]](tokens);
+    }
+  }
   while (true) {
     std::cout << "ARES &> ";  // The prompt you see in the shell, this is hardcoded for now, but, yes, i am thinking about making it customizable in the future by using PlainASCIIStrings.
                               // No, we are not getting ANSI ECS in the prompt. that is NOT going to be a thing.

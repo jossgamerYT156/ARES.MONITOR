@@ -17,6 +17,10 @@
 // .ares scripting support.
 #include "modules/AEX/ares.cpp" // ARES Automation Execution eXtension
 
+// Filesystem bullshit.
+#include <filesystem>
+namespace fs = std::filesystem;
+
 // write is a builtin command, so include it here. this isn't super critical,
 // you can delete or move it, but i don't recommend it because you'll break
 // stuff. like... a lot of stuff.
