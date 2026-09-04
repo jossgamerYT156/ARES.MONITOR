@@ -2,6 +2,12 @@
 // Initialize Global Memory Counter
 #include "std_glbl.hpp"
 #include <ostream>
+#include <sys/utsname.h>
+
+#ifdef __APPLE__
+// Include the FUCKING environment parsing, because my ass forgot to do this on apple hosts and compiling breaks without this.
+#include "boost/process/v2/detail/environment_posix.hpp"
+#endif
 #include "get_self_path.cpp"
 namespace ARES {
 namespace CORE {
@@ -21,8 +27,25 @@ void init_system()
       ARES::RTE::ENV::internal_vars[entry.substr(0, pos)] = entry.substr(pos + 1);
     }
   }
+  #ifdef __APPLE__
+    std::string PLATFORM = "*NIX:macOS";
+  #elif defined(__linux__)
+    std::string PLATFORM = "*NIX:Linux GNU";
+  #elif defined(__unix__)
+    std::string PLATFORM = "SysV:*NIX";
+  #else
+    std::string PLATFORM = "Unknown";
+  #endif
     // Override SHELL after loading environ, and bypass handle_env directly
-    ARES::RTE::ENV::internal_vars["ARES_VERSION"] = "ARES " + ARES_VERSION + " " + BRANCH;
+    ARES::RTE::ENV::internal_vars["ARES_BUILDSRC"] = "Source Built on " + PLATFORM ;
+    // Get RTE Operating System.
+    struct utsname buffer;
+    std::string OS; // We use this once.
+    if(uname(&buffer) == 0) {
+      OS = buffer.sysname;
+    }
+
+    ARES::RTE::ENV::internal_vars["ARES_VERSION"] = "ARES " + ARES_VERSION + "-" + OS + " " + BRANCH;
     ARES::RTE::ENV::internal_vars["ARES_RELEASE"] = RELEASE_DATE + " - " +ARES_RELEASE;
     setenv("SHELL", ARES::CORE::UTILS::get_self_path().c_str(), 1);
     global_err_ptr = (unsigned long long *)malloc(sizeof(unsigned long long));

@@ -33,6 +33,7 @@ namespace ARES {
     extern bool has_flag(const std::vector<std::string> &args, const std::string &flag);
 namespace MODULES::NETWORK {
 using namespace ARES;
+// this kinda doesn't work on macOS Yet... and you kinda don't wanna remove this ifdef... just saying...
 #ifdef __linux__
 
 struct ParsedURL {

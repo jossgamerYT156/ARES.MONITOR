@@ -45,6 +45,7 @@ ANDROID_FLAGS = -I$(OPENSSL_ANDROID_PATH)/include -L$(OPENSSL_ANDROID_PATH)/lib 
 ZIGCXX      = zig c++
 CXX         = clang++
 INCLUDES 	=  -I./src/include -I./src/include/* -I./src/include/modules/transcript/
+BOOSTINCLUDES = -I/usr/local/Cellar/boost/1.90.0_1/include 
 ZIGCFLAGS_LINUX = -target x86_64-linux-musl
 CFLAGS      = -std=c++17
 SOURCES     := $(wildcard src/*.cpp)
@@ -88,7 +89,7 @@ $(LINUXCOUT):build
 
 macos: $(SOURCES)
 	@echo "Compiling macOS binary..."
-	@$(CXX) $(CFLAGS) $(INCLUDES) $^ -o $(COUT)
+	@$(CXX) $(CFLAGS) $(INCLUDES) $(BOOSTINCLUDES) $^ -o $(COUT)
 
 linux-native: $(SOURCES)
 	@echo "Compiling Linux binary..."
